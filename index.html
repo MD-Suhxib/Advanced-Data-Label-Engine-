@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,9 +40,9 @@
         }
 
         .nav-btn {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
-            border: 2px solid rgba(255,255,255,0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             padding: 12px 24px;
             border-radius: 25px;
             cursor: pointer;
@@ -49,19 +50,20 @@
             backdrop-filter: blur(10px);
         }
 
-        .nav-btn:hover, .nav-btn.active {
-            background: rgba(255,255,255,0.3);
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: rgba(255, 255, 255, 0.3);
             border-color: white;
             transform: translateY(-2px);
         }
 
         .page {
             display: none;
-            background: rgba(255,255,255,0.95);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
 
         .page.active {
@@ -79,7 +81,9 @@
             color: #555;
         }
 
-        input, textarea, select {
+        input,
+        textarea,
+        select {
             width: 100%;
             padding: 12px;
             border: 2px solid #e0e0e0;
@@ -88,7 +92,9 @@
             transition: border-color 0.3s ease;
         }
 
-        input:focus, textarea:focus, select:focus {
+        input:focus,
+        textarea:focus,
+        select:focus {
             outline: none;
             border-color: #667eea;
         }
@@ -113,7 +119,7 @@
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102,126,234,0.3);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
         .btn-danger {
@@ -165,7 +171,8 @@
             flex-wrap: wrap;
         }
 
-        .rule-row select, .rule-row input {
+        .rule-row select,
+        .rule-row input {
             flex: 1;
             min-width: 120px;
         }
@@ -177,10 +184,11 @@
             background: white;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .rules-table th, .rules-table td {
+        .rules-table th,
+        .rules-table td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #e0e0e0;
@@ -213,39 +221,241 @@
             color: #721c24;
         }
 
+        /* Enhanced Dashboard Styles */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .last-updated {
+            color: #666;
+            font-size: 14px;
+            background: #f8f9fa;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            margin: 20px 0;
+            margin: 25px 0;
         }
 
         .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         .stat-number {
-            font-size: 2em;
+            font-size: 2.5em;
             font-weight: bold;
             color: #667eea;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            display: block;
         }
 
         .stat-label {
             color: #666;
             font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .chart-container {
-            background: white;
-            padding: 20px;
+        .stat-change {
+            font-size: 12px;
+            margin-top: 8px;
+            padding: 4px 8px;
             border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin: 20px 0;
+        }
+
+        .stat-change.positive {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .stat-change.negative {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-feed {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            margin: 25px 0;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .activity-icon.processed {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .activity-icon.labeled {
+            background: #e8f5e8;
+            color: #4caf50;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .activity-time {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .controls-bar {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .auto-refresh {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8f9fa;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 20px;
+            transition: .4s;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            border-radius: 50%;
+            transition: .4s;
+        }
+
+        input:checked+.toggle-slider {
+            background-color: #667eea;
+        }
+
+        input:checked+.toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        .metric-trend {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 8px;
+        }
+
+        .trend-arrow {
+            font-size: 12px;
+        }
+
+        .trend-up {
+            color: #4caf50;
+        }
+
+        .trend-down {
+            color: #f44336;
         }
 
         .error {
@@ -270,36 +480,49 @@
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
+            border: 3px solid rgba(255, 255, 255, .3);
             border-radius: 50%;
             border-top-color: #fff;
             animation: spin 1s ease-in-out infinite;
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         @media (max-width: 768px) {
             .rule-row {
                 flex-direction: column;
             }
-            
+
             .nav {
                 flex-direction: column;
                 align-items: center;
             }
-            
+
             .stats-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚀 Advanced Data Labeling Engine</h1>
+            <h1>Advanced Data Labeling Engine</h1>
             <p>Intelligent rule-based data classification system</p>
         </div>
 
@@ -312,7 +535,7 @@
         <!-- Configuration Page -->
         <div id="config" class="page active">
             <h2>Rule Configuration</h2>
-            
+
             <div class="form-group">
                 <label for="jsonInput">Sample JSON Payload</label>
                 <textarea id="jsonInput" placeholder="Paste your JSON payload here...">{
@@ -338,11 +561,13 @@
             <div class="rule-builder">
                 <h3>Rule Builder</h3>
                 <div class="form-group">
-                    <div style="background: #e3f2fd; padding: 10px; border-radius: 6px; margin: 10px 0; font-size: 13px;">
-                        <strong>Quick Guide:</strong> Select Key → Operator → Value → Logical (AND/OR/End) → Add Condition → Repeat if needed → Save Rule
+                    <div
+                        style="background: #e3f2fd; padding: 10px; border-radius: 6px; margin: 10px 0; font-size: 13px;">
+                        <strong>Quick Guide:</strong> Select Key → Operator → Value → Logical (AND/OR/End) → Add
+                        Condition → Repeat if needed → Save Rule
                     </div>
                 </div>
-                
+
                 <div id="ruleConditions">
                     <div class="rule-row">
                         <select id="keySelect" style="flex: 2;">
@@ -351,9 +576,11 @@
                         <select id="operatorSelect" style="flex: 1;">
                             <option value="=">=</option>
                             <option value="!=">!=</option>
-                            <option value="<"><</option>
+                            <option value="<">
+                                << /option>
                             <option value=">">></option>
-                            <option value="<="><=</option>
+                            <option value="<=">
+                                <=< /option>
                             <option value=">=">>=</option>
                         </select>
                         <input type="text" id="valueInput" placeholder="Value" style="flex: 2;">
@@ -365,33 +592,34 @@
                         <button class="btn" onclick="addCondition()" style="flex: 1;">Add Condition</button>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>Rule Preview:</label>
-                    <input type="text" id="rulePreview" readonly style="background: #f5f5f5; font-family: monospace; height: 35px;">
+                    <input type="text" id="rulePreview" readonly
+                        style="background: #f5f5f5; font-family: monospace; height: 35px;">
                     <small style="color: #666; font-size: 12px;">Live preview of your rule</small>
                 </div>
-                
+
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
                         <label for="labelInput">Label (what to tag matching data with)</label>
                         <input type="text" id="labelInput" placeholder="e.g., Green, HighPriority, Affordable">
                         <small style="color: #666;">Examples: Green, Red, HighPriority, Affordable, Premium</small>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="priorityInput">Priority (higher = evaluated first)</label>
                         <input type="number" id="priorityInput" value="1" min="1" max="10">
                         <small style="color: #666;">Higher priority rules are checked first</small>
                     </div>
                 </div>
-                
+
                 <div style="text-align: center; margin-top: 20px;">
                     <button class="btn btn-success" onclick="saveRule()" style="font-size: 16px; padding: 15px 30px;">
-                        💾 Save Rule
+                        Save Rule
                     </button>
                     <button class="btn" onclick="clearRuleBuilder()" style="font-size: 16px; padding: 15px 30px;">
-                        🗑️ Clear & Start Over
+                        Clear & Start Over
                     </button>
                 </div>
             </div>
@@ -417,7 +645,7 @@
         <!-- Dashboard Page -->
         <div id="dashboard" class="page">
             <h2>Analytics Dashboard</h2>
-            
+
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-number" id="totalProcessed">0</div>
@@ -449,7 +677,7 @@
         <!-- Test Payload Page -->
         <div id="test" class="page">
             <h2>Test Payload Processing</h2>
-            
+
             <div class="form-group">
                 <label for="testPayload">Test JSON Payload</label>
                 <textarea id="testPayload" placeholder="Enter JSON payload to test...">{
@@ -465,9 +693,9 @@
   "MOQ": 50
 }</textarea>
             </div>
-            
+
             <button class="btn" onclick="testProcessing()">Process Test Data</button>
-            
+
             <div id="testResults" style="margin-top: 20px;"></div>
         </div>
     </div>
@@ -477,17 +705,30 @@
         let extractedKeys = [];
         let currentRule = '';
         let labelChart = null;
+        let timelineChart = null;
+        let autoRefreshInterval = null;
+        let previousStats = {
+            totalProcessed: 0,
+            totalLabels: 0,
+            activeRules: 0,
+            processingRate: 0
+        };
 
         // Page switching
         function switchPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            
+
             document.getElementById(pageId).classList.add('active');
             event.target.classList.add('active');
-            
+
             if (pageId === 'dashboard') {
                 refreshDashboard();
+                // Enable auto-refresh by default when visiting dashboard
+                if (!autoRefreshInterval) {
+                    document.getElementById('autoRefreshToggle').checked = true;
+                    toggleAutoRefresh();
+                }
             } else if (pageId === 'config') {
                 loadRules();
             }
@@ -499,21 +740,21 @@
             try {
                 const parsed = JSON.parse(jsonInput);
                 extractedKeys = Object.keys(parsed);
-                
+
                 // Display keys
                 const keysList = document.getElementById('keysList');
-                keysList.innerHTML = extractedKeys.map(key => 
+                keysList.innerHTML = extractedKeys.map(key =>
                     `<span class="key-chip" onclick="selectKey('${key}')">${key}</span>`
                 ).join('');
-                
+
                 // Update key select dropdown
                 const keySelect = document.getElementById('keySelect');
-                keySelect.innerHTML = '<option value="">Select Key</option>' + 
+                keySelect.innerHTML = '<option value="">Select Key</option>' +
                     extractedKeys.map(key => `<option value="${key}">${key}</option>`).join('');
-                
+
                 document.getElementById('keysDisplay').style.display = 'block';
                 showMessage('Keys extracted successfully!', 'success');
-                
+
             } catch (error) {
                 showMessage('Invalid JSON format', 'error');
             }
@@ -530,12 +771,12 @@
             const operator = document.getElementById('operatorSelect').value;
             const value = document.getElementById('valueInput').value;
             const logical = document.getElementById('logicalSelect').value;
-            
+
             if (!key || !value) {
                 showMessage('Please select key and enter value', 'error');
                 return;
             }
-            
+
             // Smart value formatting - don't quote numbers
             let formattedValue = value;
             if (!isNaN(value) && !isNaN(parseFloat(value))) {
@@ -543,9 +784,9 @@
             } else {
                 formattedValue = `"${value}"`; // Quote strings
             }
-            
+
             const condition = `${key} ${operator} ${formattedValue}`;
-            
+
             if (currentRule) {
                 // If there's already a rule and we're adding more, we need a logical operator
                 if (logical && logical !== '') {
@@ -557,9 +798,9 @@
             } else {
                 currentRule = condition;
             }
-            
+
             document.getElementById('rulePreview').value = currentRule;
-            
+
             // Only clear inputs if logical operator is "End" or empty
             if (!logical || logical === '') {
                 document.getElementById('keySelect').value = '';
@@ -587,12 +828,12 @@
             const condition = document.getElementById('rulePreview').value;
             const label = document.getElementById('labelInput').value;
             const priority = parseInt(document.getElementById('priorityInput').value);
-            
+
             if (!condition || !label) {
                 showMessage('Please complete the rule condition and label', 'error');
                 return;
             }
-            
+
             try {
                 const response = await fetch(`${API_BASE}/rules`, {
                     method: 'POST',
@@ -605,7 +846,7 @@
                         priority: priority
                     })
                 });
-                
+
                 if (response.ok) {
                     showMessage('Rule saved successfully!', 'success');
                     clearRuleBuilder();
@@ -624,7 +865,7 @@
             try {
                 const response = await fetch(`${API_BASE}/rules`);
                 const rules = await response.json();
-                
+
                 const tbody = document.getElementById('rulesTableBody');
                 tbody.innerHTML = rules.map(rule => `
                     <tr>
@@ -646,7 +887,7 @@
                         </td>
                     </tr>
                 `).join('');
-                
+
             } catch (error) {
                 showMessage('Failed to load rules', 'error');
             }
@@ -658,7 +899,7 @@
                 const response = await fetch(`${API_BASE}/rules/${ruleId}/toggle`, {
                     method: 'POST'
                 });
-                
+
                 if (response.ok) {
                     showMessage('Rule status updated!', 'success');
                     loadRules();
@@ -675,12 +916,12 @@
             if (!confirm('Are you sure you want to delete this rule?')) {
                 return;
             }
-            
+
             try {
                 const response = await fetch(`${API_BASE}/rules/${ruleId}`, {
                     method: 'DELETE'
                 });
-                
+
                 if (response.ok) {
                     showMessage('Rule deleted successfully!', 'success');
                     loadRules();
@@ -695,10 +936,10 @@
         // Test processing
         async function testProcessing() {
             const payload = document.getElementById('testPayload').value;
-            
+
             try {
                 const parsedPayload = JSON.parse(payload);
-                
+
                 const response = await fetch(`${API_BASE}/process`, {
                     method: 'POST',
                     headers: {
@@ -706,9 +947,9 @@
                     },
                     body: JSON.stringify(parsedPayload)
                 });
-                
+
                 const result = await response.json();
-                
+
                 const resultsDiv = document.getElementById('testResults');
                 if (response.ok) {
                     resultsDiv.innerHTML = `
@@ -722,57 +963,133 @@
                 } else {
                     resultsDiv.innerHTML = `<div class="error">Error: ${result.error}</div>`;
                 }
-                
+
+                // Refresh dashboard if it's active
+                if (document.getElementById('dashboard').classList.contains('active')) {
+                    setTimeout(() => refreshDashboard(), 500);
+                }
+
             } catch (error) {
-                document.getElementById('testResults').innerHTML = 
+                document.getElementById('testResults').innerHTML =
                     `<div class="error">Invalid JSON or network error: ${error.message}</div>`;
             }
         }
 
-        // Refresh dashboard
+        // Toggle auto-refresh
+        function toggleAutoRefresh() {
+            const toggle = document.getElementById('autoRefreshToggle');
+
+            if (toggle.checked) {
+                autoRefreshInterval = setInterval(() => {
+                    if (document.getElementById('dashboard').classList.contains('active')) {
+                        refreshDashboard();
+                    }
+                }, 10000); // Refresh every 10 seconds
+            } else {
+                if (autoRefreshInterval) {
+                    clearInterval(autoRefreshInterval);
+                    autoRefreshInterval = null;
+                }
+            }
+        }
+
+        // Enhanced refresh dashboard with trends
         async function refreshDashboard() {
             const refreshIcon = document.getElementById('refreshIcon');
             refreshIcon.innerHTML = '<div class="loading"></div>';
-            
+
             try {
                 // Get statistics
                 const statsResponse = await fetch(`${API_BASE}/statistics`);
                 const stats = await statsResponse.json();
-                
+
                 // Get rules count
                 const rulesResponse = await fetch(`${API_BASE}/rules`);
                 const rules = await rulesResponse.json();
                 const activeRulesCount = rules.filter(r => r.enabled).length;
-                
-                // Update stats cards
-                document.getElementById('totalProcessed').textContent = stats.total_processed;
-                document.getElementById('totalLabels').textContent = stats.label_breakdown.length;
-                document.getElementById('activeRules').textContent = activeRulesCount;
-                
-                // Update chart
-                updateChart(stats.label_breakdown);
-                
+
+                // Get processed data for timeline and activity
+                const processedResponse = await fetch(`${API_BASE}/processed-data`);
+                let processedData = [];
+                if (processedResponse.ok) {
+                    processedData = await processedResponse.json();
+                }
+
+                // Calculate processing rate (records per hour in last 24h)
+                const last24h = new Date(Date.now() - 24 * 60 * 60 * 1000);
+                const recent = processedData.filter(item =>
+                    new Date(item.timestamp) > last24h
+                );
+                const processingRate = recent.length;
+
+                // Update stats with trend indicators
+                updateStatWithTrend('totalProcessed', stats.total_processed, previousStats.totalProcessed);
+                updateStatWithTrend('totalLabels', stats.label_breakdown.length, previousStats.totalLabels);
+                updateStatWithTrend('activeRules', activeRulesCount, previousStats.activeRules);
+                updateStatWithTrend('processingRate', processingRate, previousStats.processingRate);
+
+                // Store previous stats for next comparison
+                previousStats = {
+                    totalProcessed: stats.total_processed,
+                    totalLabels: stats.label_breakdown.length,
+                    activeRules: activeRulesCount,
+                    processingRate: processingRate
+                };
+
+                // Update charts
+                updateLabelChart(stats.label_breakdown);
+                updateTimelineChart(processedData);
+                updateRecentActivity(processedData.slice(-10).reverse());
+
+                // Update last updated time
+                document.getElementById('lastUpdatedTime').textContent = new Date().toLocaleTimeString();
+
             } catch (error) {
                 showMessage('Failed to refresh dashboard data', 'error');
+                console.error('Dashboard refresh error:', error);
             }
-            
+
             refreshIcon.innerHTML = '🔄';
         }
 
-        // Update chart
-        function updateChart(labelData) {
+        // Update stat with trend indicator
+        function updateStatWithTrend(elementId, currentValue, previousValue) {
+            document.getElementById(elementId).textContent = currentValue;
+
+            const trendElement = document.getElementById(elementId.replace('total', '').replace('active', '') + 'Trend');
+            if (!trendElement) return;
+
+            if (currentValue > previousValue) {
+                trendElement.innerHTML = `<span class="trend-arrow trend-up">↗</span> +${currentValue - previousValue}`;
+            } else if (currentValue < previousValue) {
+                trendElement.innerHTML = `<span class="trend-arrow trend-down">↘</span> ${currentValue - previousValue}`;
+            } else {
+                trendElement.innerHTML = '<span style="color: #666;">—</span>';
+            }
+        }
+
+        // Update label distribution chart
+        function updateLabelChart(labelData) {
             const ctx = document.getElementById('labelChart').getContext('2d');
-            
+
             if (labelChart) {
                 labelChart.destroy();
             }
-            
+
+            if (labelData.length === 0) {
+                ctx.fillStyle = '#666';
+                ctx.font = '16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('No data available', ctx.canvas.width / 2, ctx.canvas.height / 2);
+                return;
+            }
+
             const colors = [
                 '#667eea', '#764ba2', '#f093fb', '#f5576c',
                 '#4facfe', '#00f2fe', '#43e97b', '#38f9d7',
                 '#ffecd2', '#fcb69f', '#a8edea', '#fed6e3'
             ];
-            
+
             labelChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -780,63 +1097,246 @@
                     datasets: [{
                         data: labelData.map(item => item.count),
                         backgroundColor: colors.slice(0, labelData.length),
-                        borderWidth: 2,
-                        borderColor: '#fff'
+                        borderWidth: 3,
+                        borderColor: '#fff',
+                        hoverBorderWidth: 4,
+                        hoverBorderColor: '#333'
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         legend: {
                             position: 'bottom',
                             labels: {
                                 padding: 20,
-                                usePointStyle: true
+                                usePointStyle: true,
+                                font: {
+                                    size: 12
+                                }
                             }
                         },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     const label = context.label || '';
                                     const value = context.parsed;
-                                    const percentage = labelData.find(item => item.label === label)?.percentage || 0;
-                                    return `${label}: ${value} (${percentage}%)`;
+                                    const item = labelData.find(item => item.label === label);
+                                    const percentage = item ? item.percentage : 0;
+                                    return `${label}: ${value} records (${percentage}%)`;
                                 }
                             }
                         }
+                    },
+                    animation: {
+                        animateRotate: true,
+                        animateScale: true
                     }
                 }
             });
         }
 
-        // Export statistics
+        // Update timeline chart
+        function updateTimelineChart(processedData) {
+            const ctx = document.getElementById('timelineChart').getContext('2d');
+
+            if (timelineChart) {
+                timelineChart.destroy();
+            }
+
+            // Group data by hour for last 24 hours
+            const now = new Date();
+            const hourlyData = {};
+
+            for (let i = 23; i >= 0; i--) {
+                const hour = new Date(now.getTime() - i * 60 * 60 * 1000);
+                const hourKey = hour.toISOString().slice(0, 13);
+                hourlyData[hourKey] = 0;
+            }
+
+            // Count processed records per hour
+            processedData.forEach(item => {
+                const itemHour = new Date(item.timestamp).toISOString().slice(0, 13);
+                if (hourlyData.hasOwnProperty(itemHour)) {
+                    hourlyData[itemHour]++;
+                }
+            });
+
+            const labels = Object.keys(hourlyData).map(key =>
+                new Date(key + ':00:00').toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            );
+            const data = Object.values(hourlyData);
+
+            timelineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Records Processed',
+                        data: data,
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#667eea',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Time (Last 24 Hours)'
+                            }
+                        },
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Records Count'
+                            },
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    interaction: {
+                        mode: 'nearest',
+                        axis: 'x',
+                        intersect: false
+                    }
+                }
+            });
+        }
+
+        // Update recent activity
+        function updateRecentActivity(recentData) {
+            const activityContainer = document.getElementById('recentActivity');
+
+            if (recentData.length === 0) {
+                activityContainer.innerHTML = `
+                    <div class="activity-item">
+                        <div class="activity-icon processed">📥</div>
+                        <div class="activity-content">
+                            <div class="activity-title">No recent activity</div>
+                            <div class="activity-time">Process some data to see activity here</div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            activityContainer.innerHTML = recentData.map(item => {
+                const time = new Date(item.timestamp);
+                const timeStr = time.toLocaleTimeString();
+                const labels = item.labels.length > 0 ? item.labels.join(', ') : 'No labels';
+
+                return `
+                    <div class="activity-item">
+                        <div class="activity-icon ${item.labels.length > 0 ? 'labeled' : 'processed'}">
+                            ${item.labels.length > 0 ? '🏷️' : '📥'}
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">
+                                Record processed${item.labels.length > 0 ? ` - Applied: ${labels}` : ' - No labels matched'}
+                            </div>
+                            <div class="activity-time">${timeStr} - ID: ${item.id.slice(0, 8)}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Enhanced CSV export with proper formatting
         async function exportStats() {
             try {
-                const response = await fetch(`${API_BASE}/statistics`);
-                const stats = await response.json();
-                
-                // Create CSV content
-                let csvContent = "Label,Count,Percentage\n";
+                const [statsResponse, rulesResponse] = await Promise.all([
+                    fetch(`${API_BASE}/statistics`),
+                    fetch(`${API_BASE}/rules`)
+                ]);
+
+                const stats = await statsResponse.json();
+                const rules = await rulesResponse.json();
+
+                // Try to get detailed processed data
+                let processedData = [];
+                try {
+                    const processedResponse = await fetch(`${API_BASE}/processed-data`);
+                    if (processedResponse.ok) {
+                        processedData = await processedResponse.json();
+                    }
+                } catch (e) {
+                    console.warn('Could not fetch processed data for detailed export');
+                }
+
+                // Create clean CSV content
+                let csvContent = '';
+
+                // === HEADER INFO ===
+                csvContent += `Report: Data Labeling Statistics\n`;
+                csvContent += `Generated At: ${new Date().toLocaleString()}\n\n`;
+
+                // === LABEL DISTRIBUTION ===
+               
+                csvContent += `LABEL DISTRIBUTION\n`;
+                csvContent += `Label,Count\n`;
                 stats.label_breakdown.forEach(item => {
-                    csvContent += `${item.label},${item.count},${item.percentage}%\n`;
+                    csvContent += `"${item.label}",${item.count}\n`;
                 });
-                csvContent += `\nTotal Processed,${stats.total_processed},100%\n`;
-                
-                // Download CSV
-                const blob = new Blob([csvContent], { type: 'text/csv' });
+                csvContent += `\n`;
+
+
+                // === SUMMARY ===
+                csvContent += `Total Processed,${stats.total_processed}\n`;
+                csvContent += `Unique Labels,${stats.label_breakdown.length}\n`;
+                csvContent += `Active Rules,${rules.filter(r => r.enabled).length}\n`;
+                csvContent += `Total Rules,${rules.length}\n`;
+
+                // === (Optional) Processing log for last 20 records ===
+                if (processedData.length > 0) {
+                    csvContent += `\nRecent Processed Data (Last 20)\n`;
+                    csvContent += `Timestamp,Record ID,Labels Applied\n`;
+                    processedData.slice(-20).forEach(record => {
+                        const timestamp = new Date(record.timestamp).toLocaleString();
+                        const labels = record.labels.length > 0 ? record.labels.join('; ') : 'None';
+                        csvContent += `"${timestamp}","${record.id}","${labels}"\n`;
+                    });
+                }
+
+                // === Download CSV ===
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
                 const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `labeling_stats_${new Date().toISOString().split('T')[0]}.csv`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `labeling_stats_${new Date().toISOString().split('T')[0]}.csv`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
                 window.URL.revokeObjectURL(url);
-                
-                showMessage('Statistics exported successfully!', 'success');
-                
+
+                showMessage('Stats CSV exported successfully!', 'success');
             } catch (error) {
-                showMessage('Failed to export statistics', 'error');
+                showMessage('Failed to export stats: ' + error.message, 'error');
+                console.error('Export error:', error);
             }
         }
 
@@ -844,19 +1344,20 @@
         function showMessage(message, type) {
             // Remove existing messages
             document.querySelectorAll('.error, .success').forEach(el => {
-                if (!el.closest('.page')) return; // Keep result messages
-                el.remove();
+                if (!el.closest('#testResults')) {
+                    el.remove();
+                }
             });
-            
+
             const messageDiv = document.createElement('div');
             messageDiv.className = type;
             messageDiv.textContent = message;
-            
+
             const activeForm = document.querySelector('.page.active .form-group');
             if (activeForm) {
                 activeForm.parentNode.insertBefore(messageDiv, activeForm);
             }
-            
+
             // Auto remove after 5 seconds
             setTimeout(() => {
                 if (messageDiv.parentNode) {
@@ -866,17 +1367,18 @@
         }
 
         // Initialize app
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             extractKeys(); // Auto-extract keys from sample JSON
             loadRules();   // Load existing rules
         });
 
-        // Auto-update dashboard every 30 seconds when on dashboard page
-        setInterval(() => {
-            if (document.getElementById('dashboard').classList.contains('active')) {
-                refreshDashboard();
+        // Cleanup intervals when page is closed
+        window.addEventListener('beforeunload', function () {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
             }
-        }, 30000);
+        });
     </script>
 </body>
+
 </html>
