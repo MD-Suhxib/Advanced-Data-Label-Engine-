@@ -236,7 +236,6 @@
             color: #721c24
         }
 
-        /* Dashboard */
         .dashboard-header {
             display: flex;
             justify-content: space-between;
@@ -622,8 +621,6 @@
                 <div id="keysList"></div>
             </div>
 
-
-
             <div class="rule-builder">
                 <h3>Rule Builder</h3>
                 <div class="form-group">
@@ -868,8 +865,8 @@
             let formattedValue = (!isNaN(value) && !isNaN(parseFloat(value))) ? value : `"${value}"`;
             const condition = `${key} ${operator} ${formattedValue}`;
 
-            if (currentRule) {
-                currentRule += ` ${logical || 'AND'} ${condition}`;
+            if (currentRule && logical) {
+                currentRule += ` ${logical} ${condition}`;
             } else {
                 currentRule = condition;
             }
