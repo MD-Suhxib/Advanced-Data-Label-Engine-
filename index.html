@@ -130,6 +130,10 @@
             background: linear-gradient(135deg, #51cf66 0%, #40c057 100%)
         }
 
+        .btn-warning {
+            background: linear-gradient(135deg, #ffa726 0%, #fb8c00 100%)
+        }
+
         .keys-list {
             background: #f8f9fa;
             border: 1px solid #e9ecef;
@@ -153,6 +157,17 @@
         .key-chip:hover {
             background: #5a6fd8;
             transform: scale(1.05)
+        }
+
+        .key-chip.historical {
+            background: #6c757d;
+            opacity: 0.7;
+        }
+
+        .key-chip.historical::after {
+            content: " (historical)";
+            font-size: 10px;
+            opacity: 0.8;
         }
 
         .rule-builder {
@@ -226,7 +241,28 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .dashboard-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #333;
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .last-updated {
@@ -304,7 +340,19 @@
             font-size: 18px;
             font-weight: 600;
             color: #333;
-            margin-bottom: 20px
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chart-filter {
+            font-size: 12px;
+            color: #666;
+            background: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
         }
 
         .activity-feed {
@@ -443,6 +491,15 @@
             border: 1px solid #c3e6cb
         }
 
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid #ffeaa7;
+        }
+
         .loading {
             display: inline-block;
             width: 20px;
@@ -451,6 +508,46 @@
             border-radius: 50%;
             border-top-color: #fff;
             animation: spin 1s ease-in-out infinite
+        }
+
+        .orphaned-labels-section {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .orphaned-labels-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .orphaned-labels-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .orphaned-chip {
+            background: #ffa726;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .orphaned-chip .count {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 10px;
         }
 
         @keyframes spin {
@@ -524,6 +621,8 @@
                 <h4>Available Keys:</h4>
                 <div id="keysList"></div>
             </div>
+
+
 
             <div class="rule-builder">
                 <h3>Rule Builder</h3>
@@ -609,12 +708,21 @@
 
             <div class="dashboard-header">
                 <div class="last-updated">Last Updated: <span id="lastUpdatedTime">--:--:--</span></div>
-                <div class="auto-refresh">
-                    Auto Refresh
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="autoRefreshToggle" onchange="toggleAutoRefresh()">
-                        <span class="toggle-slider"></span>
-                    </label>
+                <div class="dashboard-controls">
+                    <div class="filter-toggle">
+                        Show Historical Labels
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="showHistoricalToggle" onchange="toggleHistoricalLabels()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="auto-refresh">
+                        Auto Refresh
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="autoRefreshToggle" onchange="toggleAutoRefresh()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
 
@@ -626,7 +734,7 @@
                 </div>
                 <div class="stat-card">
                     <span class="stat-number" id="totalLabels">0</span>
-                    <div class="stat-label">Unique Labels</div>
+                    <div class="stat-label">Active Labels</div>
                     <div class="metric-trend" id="LabelsTrend"></div>
                 </div>
                 <div class="stat-card">
@@ -643,7 +751,10 @@
 
             <div class="charts-container">
                 <div class="chart-card">
-                    <div class="chart-title">Label Distribution</div>
+                    <div class="chart-title">
+                        Label Distribution
+                        <span class="chart-filter" id="labelChartFilter">Active Only</span>
+                    </div>
                     <div style="position:relative;height:260px;">
                         <canvas id="labelChart"></canvas>
                     </div>
@@ -700,6 +811,10 @@
         let timelineChart = null;
         let autoRefreshInterval = null;
         let previousStats = { totalProcessed: 0, totalLabels: 0, activeRules: 0, processingRate: 0 };
+        let showHistorical = false;
+        let allLabelData = [];
+        let activeLabelData = [];
+        let orphanedLabels = [];
 
         // Page switching (pass the button element!)
         function switchPage(pageId, btnEl) {
@@ -717,6 +832,7 @@
                 }
             } else if (pageId === 'config') {
                 loadRules();
+                checkOrphanedLabels();
             }
         }
 
@@ -753,8 +869,7 @@
             const condition = `${key} ${operator} ${formattedValue}`;
 
             if (currentRule) {
-                if (logical) currentRule += ` ${logical} ${condition}`;
-                else currentRule += ` AND ${condition}`;
+                currentRule += ` ${logical || 'AND'} ${condition}`;
             } else {
                 currentRule = condition;
             }
@@ -792,7 +907,12 @@
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ condition, label, priority })
                 });
-                if (res.ok) { showMessage('Rule saved successfully!', 'success'); clearRuleBuilder(); loadRules(); }
+                if (res.ok) { 
+                    showMessage('Rule saved successfully!', 'success'); 
+                    clearRuleBuilder(); 
+                    loadRules(); 
+                    checkOrphanedLabels(); 
+                }
                 else { const err = await res.json(); showMessage(`Error: ${err.error}`, 'error'); }
             } catch (e) { showMessage(`Network error: ${e.message}`, 'error'); }
         }
@@ -820,7 +940,11 @@
         async function toggleRule(ruleId) {
             try {
                 const res = await fetch(`${API_BASE}/rules/${ruleId}/toggle`, { method: 'POST' });
-                if (res.ok) { showMessage('Rule status updated!', 'success'); loadRules(); }
+                if (res.ok) { 
+                    showMessage('Rule status updated!', 'success'); 
+                    loadRules(); 
+                    checkOrphanedLabels();
+                }
                 else { showMessage('Failed to update rule status', 'error'); }
             } catch (e) { showMessage('Network error', 'error'); }
         }
@@ -829,9 +953,74 @@
             if (!confirm('Are you sure you want to delete this rule?')) return;
             try {
                 const res = await fetch(`${API_BASE}/rules/${ruleId}`, { method: 'DELETE' });
-                if (res.ok) { showMessage('Rule deleted successfully!', 'success'); loadRules(); }
+                if (res.ok) { 
+                    showMessage('Rule deleted successfully!', 'success'); 
+                    loadRules(); 
+                    checkOrphanedLabels();
+                }
                 else { showMessage('Failed to delete rule', 'error'); }
             } catch (e) { showMessage('Network error', 'error'); }
+        }
+
+        // Check for orphaned labels (labels in data but no active rules)
+        async function checkOrphanedLabels() {
+            try {
+                const [statsRes, rulesRes] = await Promise.all([
+                    fetch(`${API_BASE}/statistics`),
+                    fetch(`${API_BASE}/rules`)
+                ]);
+                
+                if (!statsRes.ok || !rulesRes.ok) return;
+                
+                const stats = await statsRes.json();
+                const rules = await rulesRes.json();
+                
+                const activeLabels = new Set(rules.filter(r => r.enabled).map(r => r.label));
+                const allLabelsInData = stats.label_breakdown || [];
+                
+                orphanedLabels = allLabelsInData.filter(labelData => !activeLabels.has(labelData.label));
+                
+                const orphanedSection = document.getElementById('orphanedLabelsSection');
+                const orphanedList = document.getElementById('orphanedLabelsList');
+                
+                if (orphanedLabels.length > 0) {
+                    orphanedSection.style.display = 'block';
+                    orphanedList.innerHTML = orphanedLabels.map(labelData => 
+                        `<div class="orphaned-chip">
+                            ${labelData.label} 
+                            <span class="count">${labelData.count}</span>
+                        </div>`
+                    ).join('');
+                } else {
+                    orphanedSection.style.display = 'none';
+                }
+            } catch (e) {
+                console.error('Error checking orphaned labels:', e);
+            }
+        }
+
+        async function cleanupOrphanedLabels() {
+            if (!confirm(`This will remove all historical data for ${orphanedLabels.length} orphaned labels. This action cannot be undone. Continue?`)) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/cleanup-labels`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ labels: orphanedLabels.map(l => l.label) })
+                });
+                
+                if (response.ok) {
+                    showMessage('Historical data cleaned up successfully!', 'success');
+                    checkOrphanedLabels();
+                    if (document.getElementById('dashboard').classList.contains('active')) {
+                        setTimeout(refreshDashboard, 500);
+                    }
+                } else {
+                    showMessage('Failed to cleanup labels', 'error');
+                }
+            } catch (e) {
+                showMessage(`Cleanup failed: ${e.message}`, 'error');
+            }
         }
 
         async function testProcessing() {
@@ -873,6 +1062,21 @@
             }
         }
 
+        function toggleHistoricalLabels() {
+            const toggle = document.getElementById('showHistoricalToggle');
+            showHistorical = toggle.checked;
+            
+            const filterDisplay = document.getElementById('labelChartFilter');
+            filterDisplay.textContent = showHistorical ? 'All Labels' : 'Active Only';
+            
+            // Re-render chart with current data
+            const dataToShow = showHistorical ? allLabelData : activeLabelData;
+            updateLabelChart(dataToShow);
+            
+            // Update stats
+            document.getElementById('totalLabels').textContent = showHistorical ? allLabelData.length : activeLabelData.length;
+        }
+
         async function refreshDashboard() {
             const refreshIcon = document.getElementById('refreshIcon');
             refreshIcon.innerHTML = '<div class="loading"></div>';
@@ -883,6 +1087,7 @@
                 const rulesResponse = await fetch(`${API_BASE}/rules`);
                 const rules = await rulesResponse.json();
                 const activeRulesCount = rules.filter(r => r.enabled).length;
+                const activeLabels = new Set(rules.filter(r => r.enabled).map(r => r.label));
 
                 const processedResponse = await fetch(`${API_BASE}/processed-data`);
                 let processedData = [];
@@ -892,19 +1097,24 @@
                 const recent = processedData.filter(item => new Date(item.timestamp) > last24h);
                 const processingRate = recent.length;
 
+                // Separate active and all label data
+                allLabelData = stats.label_breakdown || [];
+                activeLabelData = allLabelData.filter(labelData => activeLabels.has(labelData.label));
+
                 updateStatWithTrend('totalProcessed', stats.total_processed, previousStats.totalProcessed);
-                updateStatWithTrend('totalLabels', stats.label_breakdown.length, previousStats.totalLabels);
+                updateStatWithTrend('totalLabels', showHistorical ? allLabelData.length : activeLabelData.length, previousStats.totalLabels);
                 updateStatWithTrend('activeRules', activeRulesCount, previousStats.activeRules);
                 updateStatWithTrend('processingRate', processingRate, previousStats.processingRate);
 
                 previousStats = {
                     totalProcessed: stats.total_processed,
-                    totalLabels: stats.label_breakdown.length,
+                    totalLabels: showHistorical ? allLabelData.length : activeLabelData.length,
                     activeRules: activeRulesCount,
                     processingRate
                 };
 
-                updateLabelChart(stats.label_breakdown);
+                const dataToShow = showHistorical ? allLabelData : activeLabelData;
+                updateLabelChart(dataToShow);
                 updateTimelineChart(processedData);
                 updateRecentActivity(processedData.slice(-10).reverse());
 
@@ -955,15 +1165,26 @@
                 return;
             }
 
+            // Create separate colors for active vs historical labels
+            const activeLabels = new Set();
+            if (activeLabelData) {
+                activeLabelData.forEach(item => activeLabels.add(item.label));
+            }
+
             const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#00f2fe', '#43e97b', '#38f9d7', '#ffecd2', '#fcb69f', '#a8edea', '#fed6e3'];
+            const historicalColor = '#95a5a6';
+
+            const backgroundColors = labelData.map((item, index) => {
+                return activeLabels.has(item.label) ? colors[index % colors.length] : historicalColor;
+            });
 
             labelChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: labelData.map(i => i.label),
+                    labels: labelData.map(i => i.label + (activeLabels.has(i.label) ? '' : ' (historical)')),
                     datasets: [{
                         data: labelData.map(i => i.count),
-                        backgroundColor: colors.slice(0, labelData.length),
+                        backgroundColor: backgroundColors,
                         borderWidth: 3,
                         borderColor: '#fff',
                         hoverBorderWidth: 4,
@@ -974,7 +1195,16 @@
                     responsive: true, maintainAspectRatio: false,
                     plugins: {
                         legend: { position: 'bottom', labels: { padding: 20, usePointStyle: true, font: { size: 12 } } },
-                        tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.parsed} records` } }
+                        tooltip: { 
+                            callbacks: { 
+                                label: (ctx) => {
+                                    const label = labelData[ctx.dataIndex].label;
+                                    const isActive = activeLabels.has(label);
+                                    const status = isActive ? '(active)' : '(historical)';
+                                    return `${label}: ${ctx.parsed} records ${status}`;
+                                }
+                            } 
+                        }
                     },
                     animation: { animateRotate: true, animateScale: true }
                 }
@@ -1055,6 +1285,15 @@
             }).join('');
         }
 
+        function showLabelManagement() {
+            if (orphanedLabels.length > 0) {
+                showMessage(`Found ${orphanedLabels.length} historical labels without active rules. Check the Configuration tab to manage them.`, 'warning');
+                setTimeout(() => switchPage('config'), 1500);
+            } else {
+                showMessage('All labels have active rules - no cleanup needed!', 'success');
+            }
+        }
+
         async function exportStats() {
             try {
                 const [statsResponse, rulesResponse] = await Promise.all([
@@ -1063,6 +1302,7 @@
                 ]);
                 const stats = await statsResponse.json();
                 const rules = await rulesResponse.json();
+                const activeLabels = new Set(rules.filter(r => r.enabled).map(r => r.label));
 
                 let processedData = [];
                 try {
@@ -1074,12 +1314,16 @@
                 csvContent += `Report: Data Labeling Statistics\n`;
                 csvContent += `Generated At: ${new Date().toLocaleString()}\n\n`;
 
-                csvContent += `Label,Count\n`;
-                stats.label_breakdown.forEach(i => { csvContent += `${i.label},${i.count}\n`; });
+                csvContent += `Label,Count,Status\n`;
+                stats.label_breakdown.forEach(i => { 
+                    const status = activeLabels.has(i.label) ? 'Active' : 'Historical';
+                    csvContent += `${i.label},${i.count},${status}\n`; 
+                });
                 csvContent += `\n`;
 
                 csvContent += `Total Processed,${stats.total_processed}\n`;
-                csvContent += `Unique Labels,${stats.label_breakdown.length}\n`;
+                csvContent += `Active Labels,${activeLabelData.length}\n`;
+                csvContent += `Historical Labels,${allLabelData.length - activeLabelData.length}\n`;
                 csvContent += `Active Rules,${rules.filter(r => r.enabled).length}\n`;
                 csvContent += `Total Rules,${rules.length}\n`;
 
@@ -1111,7 +1355,7 @@
         }
 
         function showMessage(message, type) {
-            document.querySelectorAll('.error, .success').forEach(el => { if (!el.closest('#testResults')) el.remove(); });
+            document.querySelectorAll('.error, .success, .warning').forEach(el => { if (!el.closest('#testResults')) el.remove(); });
             const div = document.createElement('div');
             div.className = type;
             div.textContent = message;
@@ -1123,6 +1367,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             extractKeys();
             loadRules();
+            checkOrphanedLabels();
         });
 
         window.addEventListener('beforeunload', function () {
